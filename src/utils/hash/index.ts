@@ -5,15 +5,15 @@ import bcrypt from "bcryptjs";
 
 
 
-export const generateHash = (plantext:string) =>{
+export const generateHash =async (plantext:string) =>{
 
-return bcrypt.hashSync(plantext , 10)
+return bcrypt.hash(plantext , 10)
 
 }
 
-export const compareHash = (password:string , hashpassword:string )=>{
+export const compareHash =async (password:string , hashpassword:string )=>{
 
-    return bcrypt.compareSync(password , hashpassword)
+    return bcrypt.compare(password , hashpassword)
 
 
 }

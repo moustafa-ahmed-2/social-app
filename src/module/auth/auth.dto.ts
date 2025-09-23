@@ -13,4 +13,12 @@ export interface RegisterDTO{
 
 }
 
+
+export interface VerifyAccountDTO{
+    email:string,
+    otp:string
+}
+
+
+
 export interface UpdatedUserDTO extends Partial <RegisterDTO>{}

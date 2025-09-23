@@ -7,16 +7,16 @@ export  interface IUser{
 firstName:string ; 
 lastName:string ;
 fullName ? : string ; //virtual
-password:string ;
+password?:string ;
 email:string;
 phoneNumber? :string ;
 credentialUpdatedAt: Date;
 role:  SYS_ROLE;
 gender: GENDER ;
 userAgent: USER_AGENT;
-otp:string,
-otpExpiryAt:string
-
+otp?:string,
+otpExpiryAt?:string,
+isVerified:boolean
 
 
 }

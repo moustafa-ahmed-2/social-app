@@ -16,6 +16,7 @@ public gender !:GENDER;
 public userAgent!:USER_AGENT;
 public otp !:string;
 public otpExpiryAt !:Date;
+public isVerified !:boolean
 
 
 

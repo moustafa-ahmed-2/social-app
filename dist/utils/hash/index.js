@@ -5,11 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.compareHash = exports.generateHash = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const generateHash = (plantext) => {
-    return bcryptjs_1.default.hashSync(plantext, 10);
+const generateHash = async (plantext) => {
+    return bcryptjs_1.default.hash(plantext, 10);
 };
 exports.generateHash = generateHash;
-const compareHash = (password, hashpassword) => {
-    return bcryptjs_1.default.compareSync(password, hashpassword);
+const compareHash = async (password, hashpassword) => {
+    return bcryptjs_1.default.compare(password, hashpassword);
 };
 exports.compareHash = compareHash;

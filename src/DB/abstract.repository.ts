@@ -1,4 +1,4 @@
-import { Model, MongooseUpdateQueryOptions, ProjectionType, QueryOptions, RootFilterQuery } from "mongoose";
+import { Model, MongooseUpdateQueryOptions, ProjectionType, QueryOptions, RootFilterQuery, UpdateQuery } from "mongoose";
 
 
 
@@ -14,6 +14,7 @@ constructor(protected model:Model<T>){}
 
 async create(item:Partial<T>){
     const doc=  new this.model(item);
+    doc["isNew"] = true;
     return  await doc.save()
 }
 
@@ -43,8 +44,8 @@ return await this.model.findOne(filter , projection , options)
 
       async update(
         filter:RootFilterQuery <T> ,
-        update:Partial <T> ,
-        options:MongooseUpdateQueryOptions
+        update:UpdateQuery <T> ,
+        options?:MongooseUpdateQueryOptions
            )
 
 {

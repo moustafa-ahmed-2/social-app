@@ -8,7 +8,9 @@ import { RegisterDTO } from "../auth.dto";
 
 export class AuthFactorySercice{
 
-register(registerDTO:RegisterDTO)
+
+
+async createUser(registerDTO:RegisterDTO)
 
 
 {
@@ -16,7 +18,7 @@ register(registerDTO:RegisterDTO)
     const user = new User();
     user.fullName = registerDTO.fullName as string ;
     user.email = registerDTO.email;
-    user.password = generateHash(registerDTO.password);
+    user.password =await  generateHash(registerDTO.password);
     user.phoneNumber = registerDTO.phoneNumber as string ;
     user.otp = generateOTP();
     user.otpExpiryAt = generateExpireDate(5 * 60 *60 * 1000) as unknown as string  ;
@@ -25,7 +27,9 @@ register(registerDTO:RegisterDTO)
     user.gender = registerDTO.Gender ;
     user.role = SYS_ROLE.user;
     user.userAgent = USER_AGENT.local
-  return user;   
+   user.isVerified = false
+
+    return user;   
 
 
 

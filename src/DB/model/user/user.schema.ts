@@ -2,6 +2,7 @@
 import { Schema } from "mongoose";
 import { IUser } from "../../../utils/interface";
 import { GENDER, SYS_ROLE, USER_AGENT } from "../../../utils/common/enum";
+import { sendEmail } from "../../../utils/email";
 
 
 
@@ -37,7 +38,8 @@ userAgent:{
 
 ,
 otp:{type:String} ,
-otpExpiryAt:{type:String}
+otpExpiryAt:{type:String} ,
+isVerified:{type:Boolean , default:false}
 
 }  ,  
 
@@ -63,3 +65,32 @@ userSchema.virtual("fullName").get(function(){
     this.firstName = fName  as string;
     this.lastName = lName as string ;
 })
+
+
+
+userSchema.pre("save" ,  function(next){
+
+    console.log({this:this});
+    console.log("pre-middleware")
+   next()
+
+
+}  )
+
+
+
+
+userSchema.pre("save" ,  function(next){
+
+  if(  this.userAgent !=  USER_AGENT.google    &&   this["isNew"] ==true )
+
+ sendEmail({
+    to:this.email , 
+    subject:"confirm account " ,
+    html:`<h1>  Your otp is ${this.otp}  </h1>  `
+ })
+ next()
+
+}  )
+
+

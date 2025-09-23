@@ -32,15 +32,26 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const auth_service_1 = __importDefault(require("./auth.service"));
-const validation_middleware_1 = require("../../middleware/validation.middleware");
-const authValidation = __importStar(require("./auth.validation"));
-const router = (0, express_1.Router)();
-router.post("/register", (0, validation_middleware_1.isValid)(authValidation.registerSchema), auth_service_1.default.register);
-router.post("/verify-acount", auth_service_1.default.verifyAccount);
-exports.default = router;
+exports.isValid = void 0;
+const error_1 = require("../utils/error");
+const authValidation = __importStar(require("../module/auth/auth.validation"));
+const isValid = (schema) => {
+    return (req, res, next) => {
+        let data = { ...req.body, ...req.params, ...req.query };
+        const result = authValidation.registerSchema.safeParse(data);
+        if (result.success == false) {
+            let errorMessages = result.error.issues.map(issue => {
+                return {
+                    path: issue.path[0],
+                    message: issue.message
+                };
+            });
+            console.log(errorMessages);
+            let errormessageStrings = JSON.stringify(errorMessages);
+            throw new error_1.BadRequestException(errormessageStrings);
+        }
+        return next();
+    };
+};
+exports.isValid = isValid;

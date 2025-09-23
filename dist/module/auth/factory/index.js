@@ -6,11 +6,11 @@ const enum_1 = require("../../../utils/common/enum");
 const hash_1 = require("../../../utils/hash");
 const OTP_1 = require("../../../utils/OTP");
 class AuthFactorySercice {
-    register(registerDTO) {
+    async createUser(registerDTO) {
         const user = new user_model_1.User();
         user.fullName = registerDTO.fullName;
         user.email = registerDTO.email;
-        user.password = (0, hash_1.generateHash)(registerDTO.password);
+        user.password = await (0, hash_1.generateHash)(registerDTO.password);
         user.phoneNumber = registerDTO.phoneNumber;
         user.otp = (0, OTP_1.generateOTP)();
         user.otpExpiryAt = (0, OTP_1.generateExpireDate)(5 * 60 * 60 * 1000);
@@ -18,6 +18,7 @@ class AuthFactorySercice {
         user.gender = registerDTO.Gender;
         user.role = enum_1.SYS_ROLE.user;
         user.userAgent = enum_1.USER_AGENT.local;
+        user.isVerified = false;
         return user;
     }
 }
