@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.USER_AGENT = exports.GENDER = exports.SYS_ROLE = void 0;
+exports.Reaction = exports.USER_AGENT = exports.GENDER = exports.SYS_ROLE = void 0;
 var SYS_ROLE;
 (function (SYS_ROLE) {
     SYS_ROLE["user"] = "user";
@@ -17,3 +17,10 @@ var USER_AGENT;
     USER_AGENT["local"] = "local";
     USER_AGENT["google"] = "google";
 })(USER_AGENT || (exports.USER_AGENT = USER_AGENT = {}));
+var Reaction;
+(function (Reaction) {
+    Reaction[Reaction["like"] = 0] = "like";
+    Reaction[Reaction["love"] = 1] = "love";
+    Reaction[Reaction["angry"] = 2] = "angry";
+    Reaction[Reaction["sad"] = 3] = "sad";
+})(Reaction || (exports.Reaction = Reaction = {}));

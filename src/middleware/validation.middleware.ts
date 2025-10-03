@@ -33,8 +33,7 @@ export const isValid = (schema:ZodType)=>{
       throw new BadRequestException(errormessageStrings)
      
      
-     
-     
+         
      }    
      
 

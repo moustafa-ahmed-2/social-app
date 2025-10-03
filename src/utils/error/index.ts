@@ -3,7 +3,7 @@
 
 export class AppError extends Error{
 
-constructor(message:string , public statuscode:number ,  public errorDetails ? : object[]  ){
+constructor(message:string , public statusCode:number ,  public errorDetails ? : object[]  ){
     super(message )
 }
 
@@ -18,6 +18,17 @@ constructor(message:string , errorDetails?: object[]){
 }
 
 }
+
+
+export class ForBiddenException extends AppError{
+
+constructor(message:string , errorDetails?: object[] | any){
+    super(message , 403 , errorDetails )
+}
+
+}
+
+
 
 
 

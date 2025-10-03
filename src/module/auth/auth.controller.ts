@@ -11,6 +11,7 @@ const router = Router();
 
 router.post("/register" ,   isValid(authValidation.registerSchema) ,   authService.register )
 router.post("/verify-acount" ,   authService.verifyAccount )
+router.post("/login" ,   authService.login )
 
 
 

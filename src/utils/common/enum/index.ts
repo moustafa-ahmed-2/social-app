@@ -16,3 +16,8 @@ export enum USER_AGENT{
     local = "local",
     google = "google"
 }
+
+
+export enum Reaction{
+    like, love , angry , sad
+}

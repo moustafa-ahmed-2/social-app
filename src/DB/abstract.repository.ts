@@ -66,9 +66,6 @@ return await this.model.findOne(filter , projection , options)
 
 
 
-
-
-
 }
 
 

@@ -1,10 +1,12 @@
 // import { registerSchema } from './auth.validation';
 import { UserRepository } from './../../DB/model/user/user.repository';
 import type { NextFunction, Request, Response } from "express";
-import { RegisterDTO, VerifyAccountDTO } from "./auth.dto";
-import { BadRequestException, ConflictException, NotFoundException } from '../../utils/error';
+import { LoginDTO, RegisterDTO, VerifyAccountDTO } from "./auth.dto";
+import { BadRequestException, ConflictException, ForBiddenException, NotFoundException } from '../../utils/error';
 import { AuthFactorySercice } from './factory';
 import { authProvider } from './provider/auth.provider';
+import { compareHash } from '../../utils/hash';
+import { generateToken } from '../../utils/token';
 
 // import { sendEmail } from '../../utils/email';
 
@@ -86,6 +88,48 @@ return res.status(204).json({message:"done" , success:true  })
 
 
 }
+
+
+login = async (req:Request , res:Response)=>{
+
+    const loginDTO:LoginDTO = req.body;
+ 
+    const userExist = await this.userRepository.exist(
+        {email:loginDTO.email})
+
+        if(!userExist){
+            throw new ForBiddenException("invalid credential")
+        }
+
+if (!loginDTO.password || !userExist.password) {
+  throw new ForBiddenException("invalid credential");
+}
+
+
+  const isMatch = await compareHash(loginDTO.password, userExist.password);
+  if (!isMatch) {
+    throw new ForBiddenException("invalid credential");
+  }
+
+
+const accessToken = generateToken({
+  payload: { _id: userExist._id.toString(), role: userExist.role },
+  options: { expiresIn: "1d" },
+});
+
+
+
+
+
+return res.status(200).json({message:"login successfully" ,  success:true , data:accessToken })
+
+
+}
+
+
+
+
+
 
 
 }

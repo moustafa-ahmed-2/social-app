@@ -43,4 +43,5 @@ const authValidation = __importStar(require("./auth.validation"));
 const router = (0, express_1.Router)();
 router.post("/register", (0, validation_middleware_1.isValid)(authValidation.registerSchema), auth_service_1.default.register);
 router.post("/verify-acount", auth_service_1.default.verifyAccount);
+router.post("/login", auth_service_1.default.login);
 exports.default = router;
