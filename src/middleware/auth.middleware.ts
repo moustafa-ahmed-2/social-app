@@ -1,3 +1,4 @@
+
 import { NextFunction, Request, Response } from "express";
 import { verifyToken } from "../utils/token";
 import { UserRepository } from "../DB/model/user/user.repository";
@@ -19,6 +20,8 @@ export const isAuthenticated = ()=>{
 
  const payload =    verifyToken(token);
 const userRepository = new UserRepository();
+
+
 const user = await userRepository.exist({_id:payload._id}) 
 if(!user) throw new NotFoundException("user not found")
 req.user = user;
@@ -37,11 +40,6 @@ next();
 
 
 }
-
-
-
-
-
 
 
 

@@ -5,7 +5,7 @@ import { LoginDTO, RegisterDTO, VerifyAccountDTO } from "./auth.dto";
 import { BadRequestException, ConflictException, ForBiddenException, NotFoundException } from '../../utils/error';
 import { AuthFactorySercice } from './factory';
 import { authProvider } from './provider/auth.provider';
-import { compareHash } from '../../utils/hash';
+import { compareHash, hashPassword } from '../../utils/hash';
 import { generateToken } from '../../utils/token';
 
 // import { sendEmail } from '../../utils/email';
@@ -18,7 +18,7 @@ constructor(){}
 private userRepository = new UserRepository();
 private authFactoryService = new AuthFactorySercice()
 
- register  =  async  (req:Request , res:Response , next:NextFunction)=>{
+ register  =  async  (req:Request , res:Response )=>{
    
 
     const registerDTO:RegisterDTO = req.body
@@ -49,6 +49,9 @@ const createUser = await this.userRepository.create(user);
 delete user.password;
 delete user.otp;
 delete user.otpExpiryAt;
+
+
+
 
 
 
@@ -126,6 +129,65 @@ return res.status(200).json({message:"login successfully" ,  success:true , data
 
 }
 
+
+
+
+
+updatePassword = async (req: Request, res: Response) => {
+  const { currentPassword, newPassword } = req.body;
+
+  if (!currentPassword || !newPassword) {
+    throw new ForBiddenException("Please provide current and new password");
+  }
+
+  if (!req.user || !req.user._id) {
+    throw new ForBiddenException("User not authenticated");
+  }
+
+  
+  const userExist: any = await (this.userRepository as any).findOne({ _id: req.user._id });
+  if (!userExist) throw new ForBiddenException("User not found");
+
+  
+  const isMatch = await compareHash(currentPassword, userExist.password);
+  if (!isMatch) throw new ForBiddenException("Current password is incorrect");
+
+ 
+  const hashedPassword: string = await hashPassword(newPassword);
+
+
+  await (this.userRepository as any).updateById(req.user._id, { password: hashedPassword });
+
+  return res.status(200).json({ 
+    message: "Password updated successfully", 
+    success: true 
+  });
+};
+
+
+
+
+
+updateEmail = async (req: Request, res: Response) => {
+  const { newEmail } = req.body;
+
+  if (!req.user?._id) throw new ForBiddenException("User not authenticated");
+
+  const userExist = await this.userRepository.exist({ _id: req.user._id });
+  if (!userExist) throw new NotFoundException("User not found");
+
+  
+  const emailTaken = await this.userRepository.exist({ email: newEmail });
+  if (emailTaken) throw new ConflictException("Email already in use");
+
+ await this.userRepository.update(
+  { _id: req.user._id }, 
+  { password: hashPassword } 
+);
+
+
+  return res.status(200).json({ message: "Email updated successfully", success: true });
+};
 
 
 

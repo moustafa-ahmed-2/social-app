@@ -7,7 +7,7 @@ import { CommentRepository } from "../../DB/comment/comment.repository";
 import { IComment, IUser } from "../../utils/interface";
 import { CommentFactoryService } from "./factory";
 import { CreateCommentDTO } from "./Comment.dto";
-import { success } from "zod";
+
 
 class CommentService {
   private readonly postRepository = new PostRepository();

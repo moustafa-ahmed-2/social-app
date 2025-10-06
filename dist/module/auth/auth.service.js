@@ -10,7 +10,7 @@ class AuthService {
     constructor() { }
     userRepository = new user_repository_1.UserRepository();
     authFactoryService = new factory_1.AuthFactorySercice();
-    register = async (req, res, next) => {
+    register = async (req, res) => {
         const registerDTO = req.body;
         const userExist = await this.userRepository.exist({
             email: registerDTO.email
@@ -55,6 +55,40 @@ class AuthService {
             options: { expiresIn: "1d" },
         });
         return res.status(200).json({ message: "login successfully", success: true, data: accessToken });
+    };
+    updatePassword = async (req, res) => {
+        const { currentPassword, newPassword } = req.body;
+        if (!currentPassword || !newPassword) {
+            throw new error_1.ForBiddenException("Please provide current and new password");
+        }
+        if (!req.user || !req.user._id) {
+            throw new error_1.ForBiddenException("User not authenticated");
+        }
+        const userExist = await this.userRepository.findOne({ _id: req.user._id });
+        if (!userExist)
+            throw new error_1.ForBiddenException("User not found");
+        const isMatch = await (0, hash_1.compareHash)(currentPassword, userExist.password);
+        if (!isMatch)
+            throw new error_1.ForBiddenException("Current password is incorrect");
+        const hashedPassword = await (0, hash_1.hashPassword)(newPassword);
+        await this.userRepository.updateById(req.user._id, { password: hashedPassword });
+        return res.status(200).json({
+            message: "Password updated successfully",
+            success: true
+        });
+    };
+    updateEmail = async (req, res) => {
+        const { newEmail } = req.body;
+        if (!req.user?._id)
+            throw new error_1.ForBiddenException("User not authenticated");
+        const userExist = await this.userRepository.exist({ _id: req.user._id });
+        if (!userExist)
+            throw new error_1.NotFoundException("User not found");
+        const emailTaken = await this.userRepository.exist({ email: newEmail });
+        if (emailTaken)
+            throw new error_1.ConflictException("Email already in use");
+        await this.userRepository.update({ _id: req.user._id }, { password: hash_1.hashPassword });
+        return res.status(200).json({ message: "Email updated successfully", success: true });
     };
 }
 exports.default = new AuthService();

@@ -111,11 +111,42 @@ export interface IUser {
 
 
 
+
+
+
+
+// types/express.d.ts
+import { Request } from "express";
+
+// declare module "express-serve-static-core" {
+//   interface Request {
+//     user?: {
+//       _id: string;
+//       role?: string;
+//       email?: string;
+//     };
+//   }
+// }
+
+
+
 declare module "express" {
   interface Request {
-    user?: IUser; 
+    user?: Partial<IUser>; // بدل IUser كامل
   }
 }
+
+// declare module "express" {
+//   interface Request {
+//     user?: Partial<IUser>;
+//   }
+// }
+
+
+
+
+
+
 
 
 export interface IComment{
