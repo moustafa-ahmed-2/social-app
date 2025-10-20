@@ -22,6 +22,7 @@ exports.userSchema = new mongoose_1.Schema({
     otp: { type: String },
     otpExpiryAt: { type: String },
     isVerified: { type: Boolean, default: false },
+    friends: [{ type: mongoose_1.Schema.Types.ObjectId, ref: "User" }]
 }, {
     timestamps: true,
     toJSON: { virtuals: true },

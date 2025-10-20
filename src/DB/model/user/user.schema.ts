@@ -129,6 +129,7 @@ userAgent: { type: String, enum: Object.values(USER_AGENT), default: USER_AGENT.
     otp: { type: String },
     otpExpiryAt: { type: String },
     isVerified: { type: Boolean, default: false },
+    friends:[{type:Schema.Types.ObjectId ,  ref:"User"  }]
   },
   {
     timestamps: true,

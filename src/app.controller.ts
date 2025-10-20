@@ -2,21 +2,24 @@ import { Request, Response, NextFunction, Express } from "express";
 
 import authRouter from "./module/auth/auth.controller"
 import { connectDB } from "./DB/connection";
-
+import cors from "cors"
 import { AppError } from "./utils/error";
 import userRouter from "./module/user/user.controller";
 import postRouter from "./module/Post/Post.controller";
 import commentRouter from "./module/Comment/comment.controller";
+import chatRouter from "./module/chat/chat.controller"
 
 export function bootstrap(app:Express , express:any){
 
 app.use(express.json())
 connectDB()
 
+app.use(cors({origin:"*"}))
 app.use("/auth" , authRouter  )
 app.use("/user" , userRouter)
 app.use("/post" , postRouter)
 app.use("/comment" , commentRouter   )
+app.use("/chat" , chatRouter)
 
 
 app.use((error:AppError , req:Request , res:Response , next:NextFunction)=>{

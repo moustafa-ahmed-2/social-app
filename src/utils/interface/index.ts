@@ -85,8 +85,6 @@
 
 
 
-
-import { JwtPayload } from "jsonwebtoken";
 import { GENDER, Reaction, SYS_ROLE, USER_AGENT } from "../common/enum";
 import { ObjectId, Types } from "mongoose";
 
@@ -105,10 +103,21 @@ export interface IUser {
   otp?: string;
   otpExpiryAt?: string;
   isVerified: boolean;
+  friends:ObjectId[]
 }
 
 
+export interface IMessage{
+  content:string
+  sender:ObjectId
+  attachments?:Iattachments[]
+  reaction?:IReaction[]
+}
 
+export interface IChat{
+  users:ObjectId[];
+  messages:ObjectId[]
+}
 
 
 
@@ -133,6 +142,7 @@ import { Request } from "express";
 declare module "express" {
   interface Request {
     user?: Partial<IUser>; // بدل IUser كامل
+   
   }
 }
 
@@ -145,6 +155,19 @@ declare module "express" {
 
 
 
+import { JwtPayload } from "jsonwebtoken";
+
+declare global {
+  namespace Express {
+    export interface Request {
+      user?: JwtPayload | any; // لو بتضيف req.user في auth middleware
+      params: {
+        userId?: string;
+        [key: string]: string | undefined;
+      };
+    }
+  }
+}
 
 
 
