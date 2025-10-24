@@ -21,3 +21,11 @@ export enum USER_AGENT{
 export enum Reaction{
     like, love , angry , sad
 }
+
+
+export enum FRIENDS_STATUS_ENUM {
+  PENDING = "pending",
+  ACCEPTED = "accepted",
+  REJECTED = "rejected",
+  BLOCKED = "blocked"
+}

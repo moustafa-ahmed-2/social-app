@@ -3,8 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { verifyToken } from "../utils/token";
 import { UserRepository } from "../DB/model/user/user.repository";
 import { NotFoundException } from "../utils/error";
-
-
+import z from "zod";
 
 
 
@@ -31,7 +30,7 @@ next();
 
             
         } catch (error) {
-  console.error("❌ Auth error:", error);
+  console.error(" Auth error:", error);
   return res.status(401).json({ message: "Unauthorized", success: false });
 }
 
@@ -41,6 +40,18 @@ next();
 
 
 }
+
+
+
+
+
+export const createValidationSchema = <T extends z.ZodRawShape>(schema: T) => {
+  return z.object(schema);
+};
+
+
+
+
 
 
 

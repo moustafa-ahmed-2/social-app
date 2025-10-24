@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Reaction = exports.USER_AGENT = exports.GENDER = exports.SYS_ROLE = void 0;
+exports.FRIENDS_STATUS_ENUM = exports.Reaction = exports.USER_AGENT = exports.GENDER = exports.SYS_ROLE = void 0;
 var SYS_ROLE;
 (function (SYS_ROLE) {
     SYS_ROLE["user"] = "user";
@@ -24,3 +24,10 @@ var Reaction;
     Reaction[Reaction["angry"] = 2] = "angry";
     Reaction[Reaction["sad"] = 3] = "sad";
 })(Reaction || (exports.Reaction = Reaction = {}));
+var FRIENDS_STATUS_ENUM;
+(function (FRIENDS_STATUS_ENUM) {
+    FRIENDS_STATUS_ENUM["PENDING"] = "pending";
+    FRIENDS_STATUS_ENUM["ACCEPTED"] = "accepted";
+    FRIENDS_STATUS_ENUM["REJECTED"] = "rejected";
+    FRIENDS_STATUS_ENUM["BLOCKED"] = "blocked";
+})(FRIENDS_STATUS_ENUM || (exports.FRIENDS_STATUS_ENUM = FRIENDS_STATUS_ENUM = {}));

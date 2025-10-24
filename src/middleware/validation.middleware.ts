@@ -42,11 +42,6 @@ export const isValid = (schema:ZodType)=>{
     }
 
 
-    
-
-
-
-
 }
 
 
@@ -58,49 +53,6 @@ export const isValid = (schema:ZodType)=>{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { NextFunction, Request, Response } from "express";
-// import { ZodType } from "zod";
-// import { BadRequestException } from "../utils/error";
-
-// export const isValid = (schema: ZodType<any>) => {
-//   return (req: Request, res: Response, next: NextFunction) => {
-//     const data = { ...req.body, ...req.params, ...req.query };
-
-//     const result = schema.safeParse(data);
-
-//     if (!result.success) {
-//       const errorMessages = result.error.issues.map(issue => ({
-//         path: issue.path[0],
-//         message: issue.message
-//       }));
-
-//       console.log(errorMessages);
-
-//       return res.status(400).json({
-//         success: false,
-//         message: errorMessages
-//       });
-//     }
-
-//     return next();
-//   };
-// };
 
 
 

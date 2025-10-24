@@ -63,10 +63,56 @@ return await this.model.findOne(filter , projection , options)
 {
     await this.model.deleteOne(filter)
 }
+ 
+
+async getAll(
+filter:RootFilterQuery<T>,
+projection?:ProjectionType<T>,
+options?:QueryOptions<T>
+
+){
+  return await this.model.find(filter , projection , options)
+}
 
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

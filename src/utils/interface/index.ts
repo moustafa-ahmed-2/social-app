@@ -156,6 +156,7 @@ declare module "express" {
 
 
 import { JwtPayload } from "jsonwebtoken";
+import mongoose from "mongoose";
 
 declare global {
   namespace Express {
@@ -209,4 +210,23 @@ export interface IPost {
   content: string;
   reactions: IReaction[];
   attachments: Iattachments[];
+}
+
+
+
+
+declare module "graphql"{
+  interface GraphQLError{
+    message:string , 
+    success:boolean,
+    errorDetails:any,
+    errMessages:any
+  }
+}
+
+
+export interface IFriend extends Document {
+  user: mongoose.Types.ObjectId;
+  friend: mongoose.Types.ObjectId;
+  status: "pending" | "accepted" | "blocked";
 }
